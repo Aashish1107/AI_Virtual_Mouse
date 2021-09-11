@@ -52,7 +52,7 @@ def main():
         img = detector.findBody(img)
         lmList=detector.findPosition(img)
         if(len(lmList)!=0):
-            print(lmList[0])
+            print(lmList)
 
         cTime=time.time()
         fps=1/(cTime-pTime)
