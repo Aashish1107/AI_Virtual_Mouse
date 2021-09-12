@@ -18,6 +18,7 @@ class FaceDetector():
     def findFace(self,img):
         imgRGB=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.results=self.FaceDetection.process(imgRGB)
+        bboxs=[]
         if self.results.detections:
             for id, detection in enumerate(self.results.detections):
                 
@@ -25,26 +26,27 @@ class FaceDetector():
                 ih, iw, ic =img.shape
                 bbox = int(bboxC.xmin*iw), int(bboxC.ymin*ih), \
                     int(bboxC.width*iw), int(bboxC.height*ih)
+                bboxs.append([id, bbox, detection.score])
                 cv2.rectangle(img, bbox, (0,255,0), 2)
         
-        return img
+        return img, bboxs
 
 
 def main():
 
     cap=cv2.VideoCapture(r"C:\Users\Aashi\Downloads\t5.mp4")
-    detector=FaceDetector(0.5)
+    detector=FaceDetector(0.25)
     ptime=0
     ctime=0
     while True:
         success, img = cap.read()
-        img=detector.findFace(img)
-
+        img, bboxs=detector.findFace(img)
+        print(bboxs)
     
         ctime=time.time()
         fps=1/(ctime-ptime)
         ptime=time.time()
-        cv2.putText(img, str(int(fps)),(10,100), cv2.FONT_HERSHEY_COMPLEX, 3, (0,255,0),3)
+        cv2.putText(img, "FPS:"+str(int(fps)),(10,70), cv2.FONT_HERSHEY_COMPLEX, 1, (255,0,255),1)
 
         cv2.imshow("Face Detector", img)
         cv2.waitKey(50)
