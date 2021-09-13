@@ -12,7 +12,6 @@ class FaceDetector():
 
         self.myFace=mp.solutions.face_detection
         self.FaceDetection=self.myFace.FaceDetection(self.detectionCon, self.model)
-        self.myDraw=mp.solutions.drawing_utils
 
 
     def findFace(self,img):
@@ -59,8 +58,8 @@ class FaceDetector():
 
 def main():
 
-    cap=cv2.VideoCapture(r"C:\Users\Aashi\Downloads\t5.mp4")
-    detector=FaceDetector(0.25)
+    cap=cv2.VideoCapture(r"C:\Users\Aashi\Downloads\t6.mp4")
+    detector=FaceDetector(0.5)
     ptime=0
     ctime=0
     while True:
