@@ -27,10 +27,34 @@ class FaceDetector():
                 bbox = int(bboxC.xmin*iw), int(bboxC.ymin*ih), \
                     int(bboxC.width*iw), int(bboxC.height*ih)
                 bboxs.append([id, bbox, detection.score])
-                cv2.rectangle(img, bbox, (0,255,0), 2)
+                
+                img=self.TargetFace(img,bbox)
         
         return img, bboxs
 
+    def TargetFace(self, img, bbox, l=25, t=5, rt=1):
+        x,y,w,h=bbox
+        x1,y1=x+w,y+h
+
+        cv2.rectangle(img, bbox, (0,255,0), 1)
+
+        #TOP LEFT (x,y)
+        cv2.line(img, (x,y),(x+l,y),(0,255,0),t)
+        cv2.line(img,(x,y),(x,y+l),(0,255,0),t)
+
+        #TOP RIGHT (x1,y)
+        cv2.line(img, (x1,y),(x1-l,y),(0,255,0),t)
+        cv2.line(img,(x1,y),(x1,y+l),(0,255,0),t)
+
+        #BOTTOM LEFT (x,y1)
+        cv2.line(img, (x,y1),(x+l,y1),(0,255,0),t)
+        cv2.line(img,(x,y1),(x,y1-l),(0,255,0),t)
+
+        #BOTTOM RIGHT (x1,y1)
+        cv2.line(img, (x1,y1),(x1-l,y1),(0,255,0),t)
+        cv2.line(img,(x1,y1),(x1,y1-l),(0,255,0),t)
+
+        return img
 
 def main():
 
