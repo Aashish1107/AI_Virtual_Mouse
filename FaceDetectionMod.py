@@ -28,16 +28,17 @@ class FaceDetector():
                     int(bboxC.width*iw), int(bboxC.height*ih)
                 bboxs.append([id, bbox, detection.score])
                 
-                img=self.TargetFace(img,bbox)
+                img=self.TargetFace(img,bbox, detection.score)
+                
         
         return img, bboxs
 
-    def TargetFace(self, img, bbox, l=25, t=5, rt=1):
+    def TargetFace(self, img, bbox, score ,l=25, t=5, rt=1):
         x,y,w,h=bbox
         x1,y1=x+w,y+h
 
-        cv2.rectangle(img, bbox, (0,255,0), 1)
-
+        cv2.rectangle(img, bbox, (0,255,0), rt)
+        cv2.putText(img,str(int(score[0]*100))+"%",(bbox[0],bbox[1]-20),cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),1)
         #TOP LEFT (x,y)
         cv2.line(img, (x,y),(x+l,y),(0,255,0),t)
         cv2.line(img,(x,y),(x,y+l),(0,255,0),t)
