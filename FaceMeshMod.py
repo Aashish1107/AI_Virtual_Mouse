@@ -12,7 +12,7 @@ class FaceMeshDetector():
 
         self.mpDraw=mp.solutions.drawing_utils
         self.mpFaceMesh=mp.solutions.face_mesh
-        self.faceMesh=self.mpFaceMesh.FaceMesh()
+        self.faceMesh=self.mpFaceMesh.FaceMesh(self.mode, self.maxFaces, self.detectionCon, self.trackCon)
 
     def findFaceMesh(self, img):
 
@@ -26,12 +26,12 @@ class FaceMeshDetector():
         if self.results.multi_face_landmarks:
             for fid,facelms in enumerate(self.results.multi_face_landmarks):
                 self.mpDraw.draw_landmarks(img, facelms ,self.mpFaceMesh.FACEMESH_CONTOURS,drawspecs,drawspecs)
-            
+                face=[]
                 for id, lm in enumerate(facelms.landmark):
                     ih, iw, ic = img.shape
                     x,y=int(lm.x * iw), int(lm.y * ih)
-                    lmList.append([fid,id,x,y])
-            
+                    face.append([id,x,y])
+                lmList.append([fid, face])
         return img,lmList
     
 
@@ -45,8 +45,8 @@ def main():
     while True:
         success, img = cap.read()
         img, lmList =detector.findFaceMesh(img)
-        
         print(lmList)
+        
         ctime=time.time()
         fps=1/(ctime-ptime)
         ptime=time.time()
