@@ -7,7 +7,7 @@ cap=cv2.VideoCapture(0)
 cap.set(3,720)
 cap.set(4,480)
 
-folderPath="Fingers"
+folderPath="Fingers"       
 myList=os.listdir(folderPath)
 overlayList=[]
 
