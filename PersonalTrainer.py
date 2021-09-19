@@ -19,17 +19,26 @@ while True:
     if len(lmList)!=0:
         img,angle=detector.findAngle(img,12,14,16)
         
-        per=np.interp(angle,[30,160],[0,100])
-        
+        per=np.interp(angle,[30,160],[100,0])
+        bar=np.interp(angle,[30,160],[300,450])
         #Check curls
         if per==100:
             if dir==0:
+                color=(255,0,255)
                 count+=0.5
                 dir=1
         if per==0:
+            color=(0,255,0)
             if dir==1:
                 count+=0.5
                 dir=0
+
+        #Curl Progress Bar
+        cv2.putText(img,str(int(per)),(650,250),cv2.FONT_HERSHEY_PLAIN,2,(255,0,0),2)
+        cv2.rectangle(img, (650,300),(700,450),(0,255,0),2)
+        cv2.rectangle(img,(700,450),(650,int(bar)),color,cv2.FILLED)  
+
+        #Count Curls      
         cv2.rectangle(img,(0,350),(100,480),(0,255,0),cv2.FILLED)
         cv2.putText(img,f'{int(count)}',(20,440),cv2.FONT_HERSHEY_PLAIN,5,(255,0,255),5)
 
