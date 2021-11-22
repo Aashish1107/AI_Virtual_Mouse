@@ -16,3 +16,5 @@ pip install mediapipe
 
 To install PyAutoGUI, open prompt and type:
 pip install pyautogui
+
+After installing the required packages, you can download the required files and use the Virtual_Mouse.
